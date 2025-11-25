@@ -1,8 +1,6 @@
-// src/admin/ManageRequests.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-const API_BASE_URL = 'http://localhost:5000';
+import { API_BASE_URL } from '../config';
 
 function ManageRequests() {
   const [requests, setRequests] = useState([]);
@@ -51,7 +49,9 @@ function ManageRequests() {
                   <tr key={req._id}>
                     <td>{req.patient_name}</td>
                     <td>
-                      <span className="badge bg-danger">{req.blood_group}</span>
+                      <span className="badge bg-danger">
+                        {req.blood_group}
+                      </span>
                     </td>
                     <td>{req.units_required}</td>
                     <td>{req.hospital_name}</td>
@@ -72,13 +72,17 @@ function ManageRequests() {
                         <>
                           <button
                             className="btn btn-sm btn-success me-2"
-                            onClick={() => handleUpdateStatus(req._id, 'approved')}
+                            onClick={() =>
+                              handleUpdateStatus(req._id, 'approved')
+                            }
                           >
                             Approve
                           </button>
                           <button
                             className="btn btn-sm btn-danger"
-                            onClick={() => handleUpdateStatus(req._id, 'rejected')}
+                            onClick={() =>
+                              handleUpdateStatus(req._id, 'rejected')
+                            }
                           >
                             Reject
                           </button>

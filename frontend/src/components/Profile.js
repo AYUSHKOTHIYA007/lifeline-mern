@@ -1,7 +1,7 @@
+// frontend/src/components/Profile.js
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-
-const API_BASE_URL = 'http://localhost:5000'; // ✅ Local backend
+import { API_BASE_URL } from '../config';
 
 function Profile() {
   const [profile, setProfile] = useState(null);
@@ -9,14 +9,11 @@ function Profile() {
   const navigate = useNavigate();
   const userId = localStorage.getItem('userId');
 
-  // --- Helper Functions ---
-
-  // ✅ Safe date formatter that works with both string and Date
   const formatDate = (value) => {
     if (!value) return 'N/A';
 
     try {
-      const date = new Date(value); // handles Date object or ISO string
+      const date = new Date(value);
       if (isNaN(date.getTime())) return 'N/A';
 
       return date.toLocaleDateString('en-US', {
@@ -29,7 +26,6 @@ function Profile() {
     }
   };
 
-  // Function to determine the last donation date
   const getLastDonationDate = (history) => {
     if (!history || history.length === 0) return 'Never';
 
@@ -39,7 +35,6 @@ function Profile() {
     return formatDate(sortedHistory[0].donation_date);
   };
 
-  // --- Data Fetching ---
   useEffect(() => {
     if (!userId) {
       alert('Please log in to view your profile.');
@@ -84,12 +79,8 @@ function Profile() {
     );
   }
 
-  // --- Data Preparation ---
   const lastDonationDate = getLastDonationDate(profile.history);
 
-  // Build address:
-  // 1) Prefer the detailed fields (address_line, city, state, pincode)
-  // 2) Fallback to 'address' field (required in schema)
   const addressParts = [
     profile.user.address_line,
     profile.user.city,
@@ -101,7 +92,6 @@ function Profile() {
   const displayAddress =
     fullAddressFromParts || profile.user.address || 'Address not set';
 
-  // Google Maps link: prefer stored google_maps_link; else build from address text
   const mapHref =
     profile.user.google_maps_link && profile.user.google_maps_link.trim() !== ''
       ? profile.user.google_maps_link
@@ -109,15 +99,12 @@ function Profile() {
       ? `https://maps.google.com/?q=${encodeURIComponent(displayAddress)}`
       : null;
 
-  // Member since – use created_at if present
   const memberSinceDate = formatDate(profile.user.created_at);
 
-  // --- Rendering the Profile UI ---
   return (
     <div className="container py-4">
       <h2 className="fw-bold mb-4">My Profile</h2>
       <div className="row g-4">
-        {/* --- Personal Information (Left Column) --- */}
         <div className="col-lg-8">
           <div className="card shadow-sm p-4">
             <div className="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
@@ -158,7 +145,6 @@ function Profile() {
                 <p>{profile.user.mobile || 'N/A'}</p>
               </div>
 
-              {/* Address */}
               <div className="col-12 mt-3">
                 <p className="fw-bold mb-0">Address:</p>
                 <p>{displayAddress}</p>
@@ -175,7 +161,6 @@ function Profile() {
                 )}
               </div>
 
-              {/* Last Donation Date & Member Since */}
               <div className="col-md-6 mt-3">
                 <p className="fw-bold mb-0">Last Donation Date:</p>
                 <p>{lastDonationDate}</p>
@@ -188,7 +173,6 @@ function Profile() {
           </div>
         </div>
 
-        {/* --- Donation History (Right Column) --- */}
         <div className="col-lg-4">
           <div className="card text-white bg-dark shadow p-4">
             <h5 className="card-title mb-3">Donation History</h5>

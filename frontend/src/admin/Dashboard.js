@@ -1,8 +1,6 @@
-// src/admin/Dashboard.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-const API_BASE_URL = 'http://localhost:5000'; // 🔁 change here if you use Render
+import { API_BASE_URL } from '../config';
 
 function Dashboard() {
   const [stats, setStats] = useState({
@@ -116,7 +114,9 @@ function Dashboard() {
                   <tr key={req._id}>
                     <td>{req.patient_name}</td>
                     <td>
-                      <span className="badge bg-danger">{req.blood_group}</span>
+                      <span className="badge bg-danger">
+                        {req.blood_group}
+                      </span>
                     </td>
                     <td>
                       <span

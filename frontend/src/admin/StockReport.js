@@ -1,8 +1,6 @@
-// src/admin/StockReport.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-const API_BASE_URL = 'http://localhost:5000';
+import { API_BASE_URL } from '../config';
 
 function StockReport() {
   const [stock, setStock] = useState([]);
@@ -69,7 +67,9 @@ function StockReport() {
                       type="number"
                       className="form-control"
                       value={item.units}
-                      onChange={(e) => handleUnitChange(index, e.target.value)}
+                      onChange={(e) =>
+                        handleUnitChange(index, e.target.value)
+                      }
                     />
                   </td>
                 </tr>

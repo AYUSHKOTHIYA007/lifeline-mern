@@ -1,8 +1,6 @@
-// src/admin/AddDonor.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-const API_BASE_URL = 'http://localhost:5000';
+import { API_BASE_URL } from '../config';
 
 function AddDonor() {
   const navigate = useNavigate();
@@ -51,7 +49,10 @@ function AddDonor() {
 
   return (
     <div className="d-flex justify-content-center">
-      <div className="card shadow-sm" style={{ maxWidth: '900px', width: '100%' }}>
+      <div
+        className="card shadow-sm"
+        style={{ maxWidth: '900px', width: '100%' }}
+      >
         <div className="card-body">
           <h2 className="text-center mb-4">Add New Donor</h2>
           <p className="text-center text-muted mb-4">
@@ -118,11 +119,13 @@ function AddDonor() {
                 required
               >
                 <option value="">Choose...</option>
-                {['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map((bg) => (
-                  <option key={bg} value={bg}>
-                    {bg}
-                  </option>
-                ))}
+                {['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map(
+                  (bg) => (
+                    <option key={bg} value={bg}>
+                      {bg}
+                    </option>
+                  )
+                )}
               </select>
             </div>
 
@@ -150,7 +153,9 @@ function AddDonor() {
 
             {/* Address line */}
             <div className="col-12">
-              <label className="form-label">House No. & Street Name (Optional)</label>
+              <label className="form-label">
+                House No. & Street Name (Optional)
+              </label>
               <input
                 className="form-control"
                 name="address_line"

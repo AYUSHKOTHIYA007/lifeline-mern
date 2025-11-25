@@ -1,4 +1,6 @@
+// frontend/src/components/Search.js
 import React, { useState } from 'react';
+import { API_BASE_URL } from '../config';
 
 function Search() {
   const [bloodGroup, setBloodGroup] = useState('');
@@ -7,9 +9,6 @@ function Search() {
   const [stock, setStock] = useState(null);
   const [searched, setSearched] = useState(false);
 
-  const API_BASE_URL = "http://localhost:5000";
-
-  // Fetch Lifeline Stock
   const fetchStock = async (group) => {
     try {
       const response = await fetch(`${API_BASE_URL}/api/admin/stock`);
@@ -17,11 +16,10 @@ function Search() {
       const found = data.find((s) => s.blood_group === group);
       setStock(found || null);
     } catch (error) {
-      console.error("Error loading stock:", error);
+      console.error('Error loading stock:', error);
     }
   };
 
-  // Search Donors
   const handleSearch = async (e) => {
     e.preventDefault();
 
@@ -35,7 +33,6 @@ function Search() {
     if (bloodGroup) fetchStock(bloodGroup);
   };
 
-  // Helper: format address + map link
   const getAddressInfo = (donor) => {
     const parts = [
       donor.address_line,
@@ -44,12 +41,13 @@ function Search() {
       donor.pincode,
     ].filter(Boolean);
 
-    const fullAddress = parts.join(", ") || donor.address || "Address not available";
+    const fullAddress =
+      parts.join(', ') || donor.address || 'Address not available';
 
     const mapHref =
-      donor.google_maps_link && donor.google_maps_link.trim() !== ""
+      donor.google_maps_link && donor.google_maps_link.trim() !== ''
         ? donor.google_maps_link
-        : fullAddress !== "Address not available"
+        : fullAddress !== 'Address not available'
         ? `https://maps.google.com/?q=${encodeURIComponent(fullAddress)}`
         : null;
 
@@ -63,7 +61,6 @@ function Search() {
         Search for available donors by blood group and location.
       </p>
 
-      {/* Search Form */}
       <div className="card shadow-sm p-4 mt-4 col-lg-10 mx-auto">
         <form onSubmit={handleSearch} className="row g-3 align-items-end">
           <div className="col-md-5">
@@ -74,13 +71,21 @@ function Search() {
               onChange={(e) => setBloodGroup(e.target.value)}
             >
               <option value="">Any</option>
-              <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
-              <option>AB+</option><option>AB-</option><option>O+</option><option>O-</option>
+              <option>A+</option>
+              <option>A-</option>
+              <option>B+</option>
+              <option>B-</option>
+              <option>AB+</option>
+              <option>AB-</option>
+              <option>O+</option>
+              <option>O-</option>
             </select>
           </div>
 
           <div className="col-md-5">
-            <label className="form-label text-start w-100">City or State</label>
+            <label className="form-label text-start w-100">
+              City or State
+            </label>
             <input
               type="text"
               className="form-control"
@@ -99,18 +104,18 @@ function Search() {
       </div>
 
       <div className="mt-5 col-lg-10 mx-auto">
-
-        {/* BEFORE SEARCH */}
         {!searched && (
-          <div className="alert alert-info">Please use the form above to search for donors.</div>
+          <div className="alert alert-info">
+            Please use the form above to search for donors.
+          </div>
         )}
 
-        {/* NO DONORS */}
         {searched && donors.length === 0 && (
-          <div className="alert alert-warning">No donors found matching your criteria.</div>
+          <div className="alert alert-warning">
+            No donors found matching your criteria.
+          </div>
         )}
 
-        {/* DONOR LIST */}
         {searched && donors.length > 0 && (
           <div>
             <h4 className="fw-bold mb-3 text-start">Available Donors</h4>
@@ -123,8 +128,6 @@ function Search() {
                   <div className="col-md-6 col-lg-4" key={donor._id}>
                     <div className="card h-100 text-center shadow-sm border-0">
                       <div className="card-body">
-
-                        {/* Blood Group */}
                         <div className="mb-2">
                           <span className="badge bg-danger p-2 fs-5">
                             {donor.blood_group}
@@ -133,19 +136,16 @@ function Search() {
 
                         <h5 className="fw-bold mt-3">{donor.name}</h5>
 
-                        {/* Address */}
                         <p className="text-muted">
                           <i className="fas fa-map-marker-alt me-2"></i>
                           {fullAddress}
                         </p>
 
-                        {/* Phone */}
                         <p>
                           <i className="fas fa-phone me-2"></i>
                           {donor.mobile}
                         </p>
 
-                        {/* Google Maps */}
                         {mapHref && (
                           <a
                             href={mapHref}
@@ -165,7 +165,6 @@ function Search() {
           </div>
         )}
 
-        {/* LIFELINE STOCK CARD */}
         {bloodGroup && stock && (
           <div className="mt-5">
             <h4 className="fw-bold text-start">Lifeline Blood Bank Stock</h4>
@@ -174,7 +173,6 @@ function Search() {
               <div className="col-md-6 col-lg-4">
                 <div className="card h-100 text-center shadow-sm border-0">
                   <div className="card-body">
-
                     <div className="mb-2">
                       <span className="badge bg-danger p-2 fs-5">
                         {stock.blood_group}
@@ -212,7 +210,6 @@ function Search() {
             </div>
           </div>
         )}
-
       </div>
     </div>
   );

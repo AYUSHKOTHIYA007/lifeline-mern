@@ -1,8 +1,6 @@
-// src/admin/ManageDonors.jsx
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-const API_BASE_URL = 'http://localhost:5000';
+import { API_BASE_URL } from '../config';
 
 function ManageDonors() {
   const [donors, setDonors] = useState([]);

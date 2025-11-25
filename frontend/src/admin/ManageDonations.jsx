@@ -1,8 +1,6 @@
-// src/admin/ManageDonations.jsx
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-const API_BASE_URL = 'http://localhost:5000';
+import { API_BASE_URL } from '../config';
 
 function ManageDonations() {
   const [donors, setDonors] = useState([]);
@@ -165,7 +163,9 @@ function ManageDonations() {
                     </span>
                   </td>
                   <td>{d.venue}</td>
-                  <td>{new Date(d.donation_date).toLocaleDateString()}</td>
+                  <td>
+                    {new Date(d.donation_date).toLocaleDateString()}
+                  </td>
                   <td>{d.units}</td>
                   <td>
                     <button

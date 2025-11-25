@@ -1,7 +1,7 @@
+// frontend/src/components/Login.js
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
-const API_BASE_URL = 'http://localhost:5000'; // ✅ Local backend
+import { API_BASE_URL } from '../config';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -22,16 +22,11 @@ function Login() {
       if (response.ok) {
         let retrievedUserName = '';
 
-        // 1. name directly on root
         if (data.name) {
           retrievedUserName = data.name;
-        }
-        // 2. nested user object
-        else if (data.user && data.user.name) {
+        } else if (data.user && data.user.name) {
           retrievedUserName = data.user.name;
-        }
-        // 3. fallback field
-        else if (data.userName) {
+        } else if (data.userName) {
           retrievedUserName = data.userName;
         }
 
