@@ -40,7 +40,48 @@ async function handleApiRequest(req, res) {
       getBody(req, (body) => {
         (async () => {
           try {
-            const newUser = new User(body);
+            const {
+              name,
+              email,
+              password,
+              age,
+              blood_group,
+              gender,
+              mobile,
+              address,        // optional direct address
+              address_line,
+              city,
+              state,
+              pincode,
+              google_maps_link,
+            } = body;
+
+            // Build value for required `address` field in schema
+            let fullAddress =
+              address ||
+              address_line ||
+              [city, state].filter(Boolean).join(', ');
+
+            if (!fullAddress) {
+              fullAddress = 'Not provided';
+            }
+
+            const newUser = new User({
+              name,
+              email,
+              password,
+              age,
+              blood_group,
+              gender,
+              mobile,
+              address: fullAddress,   // ✅ always set
+              address_line,
+              city,
+              state,
+              pincode,
+              google_maps_link,
+            });
+
             await newUser.save();
             res
               .writeHead(201)
