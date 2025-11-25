@@ -1,0 +1,14 @@
+{
+  "name": "backend-no-express",
+  "version": "1.0.0",
+  "description": "Simple backend for LifeLine without Express",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "mongoose": "^7.5.0"
+  }
+}

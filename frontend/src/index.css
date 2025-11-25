@@ -1,0 +1,181 @@
+/* --- Color & Font Variables --- */
+:root {
+    /* Primary UI theme for React (blue + white) */
+    --lifeline-primary: #1e88e5;        /* blue */
+    --lifeline-primary-dark: #1565c0;   /* darker blue */
+
+    /* Brand logo red (use only where needed, e.g. logo text) */
+    --lifeline-logo-red: #d32f2f;
+
+    --admin-sidebar-bg: #212529;
+    --font-family-sans-serif: 'Poppins', sans-serif;
+    --bs-body-bg: #f8f9fa; /* Light grey background */
+}
+
+body {
+    font-family: var(--font-family-sans-serif);
+    background-color: var(--bs-body-bg);
+}
+
+/* --- Custom Button Styles --- */
+.btn-lifeline {
+    background-color: var(--lifeline-primary);
+    color: #fff;
+    border: 2px solid var(--lifeline-primary);
+    padding: 10px 25px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-lifeline:hover,
+.btn-lifeline:focus {
+    background-color: var(--lifeline-primary-dark);
+    color: #fff;
+    border-color: var(--lifeline-primary-dark);
+}
+
+.btn-lifeline-outline {
+    background-color: transparent;
+    color: var(--lifeline-primary);
+    border: 2px solid var(--lifeline-primary);
+    padding: 10px 25px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-lifeline-outline:hover,
+.btn-lifeline-outline:focus {
+    background-color: var(--lifeline-primary);
+    color: #fff;
+}
+
+.text-lifeline {
+    color: var(--lifeline-primary);
+}
+
+/* --- Admin Layout Styles --- */
+.admin-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.admin-sidebar {
+    width: 250px;
+    background-color: var(--admin-sidebar-bg);
+    color: #fff;
+    padding-top: 20px;
+    position: fixed;
+    height: 100%;
+}
+
+.admin-sidebar a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    display: block;
+    padding: 10px 20px;
+}
+
+.admin-sidebar a.active,
+.admin-sidebar a:hover {
+    color: #fff;
+    background-color: #343a40;
+}
+
+.admin-main-content {
+    margin-left: 250px;
+    flex-grow: 1;
+    padding: 30px;
+}
+
+/* --- Hero Banner (React Home Page) --- */
+.hero-banner {
+    /* background-image is set from React inline style */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    height: 430px;          /* adjust as you like */
+    border-radius: 12px;
+    margin-top: 1rem;
+    padding: 3rem 2rem;
+
+    color: #222;            /* white text on hero image */
+    position: relative;
+}
+
+/* Force hero banner text to dark */
+.hero-banner h1,
+.hero-banner p,
+.hero-banner .btn,
+.hero-banner .lead,
+.hero-banner .display-4,
+.hero-banner span {
+    color: #222 !important;
+}
+
+.hero-banner .btn-lifeline,
+.hero-banner .btn-secondary {
+    color: #fff !important;
+}
+
+/* --- Admin Login Page UI --- */
+
+.admin-login-page {
+  min-height: calc(100vh - 72px); /* adjust if navbar height different */
+  background: radial-gradient(circle at top left, #e3f2fd, #f8f9fa);
+}
+
+.admin-login-card {
+  border-radius: 20px;
+}
+
+/* Left side illustration panel */
+.admin-login-illustration {
+  background: linear-gradient(135deg, #1e88e5, #1565c0);
+  color: #fff;
+  padding: 2.5rem 2.25rem;
+}
+
+.admin-login-illustration h3 {
+  line-height: 1.3;
+}
+
+.admin-login-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-login-icon i {
+  font-size: 1.2rem;
+}
+
+/* Form side tweaks */
+.admin-login-card .form-control {
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+  padding: 0.75rem 1rem;
+}
+
+.admin-login-card .form-control:focus {
+  border-color: var(--lifeline-primary);
+  box-shadow: 0 0 0 0.15rem rgba(30, 136, 229, 0.15);
+}
+
+.admin-login-card .badge {
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+}
+
+/* Small screens: card spacing */
+@media (max-width: 767.98px) {
+  .admin-login-page {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+}
+
