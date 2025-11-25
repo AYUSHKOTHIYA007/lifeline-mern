@@ -8,6 +8,12 @@ const BloodRequest = require('./models/BloodRequest');
 const BloodStock = require('./models/BloodStock');
 const DonationHistory = require('./models/DonationHistory');
 
+// Default admin for demo / project (in addition to DB admins)
+const HARDCODED_ADMIN = {
+  username: 'admin',
+  password: 'admin123',
+};
+
 // Helper to read JSON body
 function getBody(req, callback) {
   let body = '';
@@ -94,7 +100,9 @@ async function handleApiRequest(req, res) {
           }
         })();
       });
-    } else if (method === 'POST' && pathname === '/api/login') {
+    }
+
+    else if (method === 'POST' && pathname === '/api/login') {
       getBody(req, ({ email, password }) => {
         (async () => {
           try {
@@ -120,7 +128,9 @@ async function handleApiRequest(req, res) {
           }
         })();
       });
-    } else if (method === 'GET' && pathname === '/api/search') {
+    }
+
+    else if (method === 'GET' && pathname === '/api/search') {
       const blood_group = searchParams.get('blood_group');
       const address = searchParams.get('address');
       const query = {};
@@ -128,7 +138,9 @@ async function handleApiRequest(req, res) {
       if (address) query.address = { $regex: address, $options: 'i' };
       const donors = await User.find(query);
       res.writeHead(200).end(JSON.stringify(donors));
-    } else if (method === 'POST' && pathname === '/api/request-blood') {
+    }
+
+    else if (method === 'POST' && pathname === '/api/request-blood') {
       getBody(req, (body) => {
         (async () => {
           try {
@@ -153,7 +165,9 @@ async function handleApiRequest(req, res) {
           }
         })();
       });
-    } else if (method === 'GET' && pathParts[0] === 'api' && pathParts[1] === 'profile') {
+    }
+
+    else if (method === 'GET' && pathParts[0] === 'api' && pathParts[1] === 'profile') {
       const userId = pathParts[2];
       const user = await User.findById(userId);
       const history = await DonationHistory.find({
@@ -167,7 +181,20 @@ async function handleApiRequest(req, res) {
       getBody(req, ({ username, password }) => {
         (async () => {
           try {
+            // 1) Hard-coded default admin (for demo/college project)
+            if (
+              username === HARDCODED_ADMIN.username &&
+              password === HARDCODED_ADMIN.password
+            ) {
+              res
+                .writeHead(200)
+                .end(JSON.stringify({ message: 'Admin login successful (default admin)' }));
+              return;
+            }
+
+            // 2) Otherwise check in MongoDB admins collection
             const admin = await Admin.findOne({ username, password });
+
             if (admin) {
               res
                 .writeHead(200)
@@ -234,7 +261,9 @@ async function handleApiRequest(req, res) {
     else if (method === 'GET' && pathname === '/api/admin/donors') {
       const donors = await User.find({});
       res.writeHead(200).end(JSON.stringify(donors));
-    } else if (method === 'POST' && pathname === '/api/admin/donors') {
+    }
+
+    else if (method === 'POST' && pathname === '/api/admin/donors') {
       // Add donor from admin (same-style fields as signup)
       getBody(req, (body) => {
         (async () => {
@@ -298,7 +327,9 @@ async function handleApiRequest(req, res) {
           }
         })();
       });
-    } else if (
+    }
+
+    else if (
       method === 'DELETE' &&
       pathParts[0] === 'api' &&
       pathParts[1] === 'admin' &&
@@ -313,7 +344,9 @@ async function handleApiRequest(req, res) {
     else if (method === 'GET' && pathname === '/api/admin/requests') {
       const requests = await BloodRequest.find({});
       res.writeHead(200).end(JSON.stringify(requests));
-    } else if (
+    }
+
+    else if (
       method === 'PUT' &&
       pathParts[0] === 'api' &&
       pathParts[1] === 'admin' &&
@@ -354,7 +387,9 @@ async function handleApiRequest(req, res) {
       }
       const stock = await BloodStock.find({}).sort({ blood_group: 1 });
       res.writeHead(200).end(JSON.stringify(stock));
-    } else if (method === 'POST' && pathname === '/api/admin/stock') {
+    }
+
+    else if (method === 'POST' && pathname === '/api/admin/stock') {
       getBody(req, (stockUpdates) => {
         (async () => {
           try {
@@ -397,7 +432,9 @@ async function handleApiRequest(req, res) {
         { $sort: { donation_date: -1 } },
       ]);
       res.writeHead(200).end(JSON.stringify(donations));
-    } else if (method === 'POST' && pathname === '/api/admin/donations') {
+    }
+
+    else if (method === 'POST' && pathname === '/api/admin/donations') {
       getBody(req, ({ donorId, venue, donation_date, units }) => {
         (async () => {
           try {
@@ -440,7 +477,9 @@ async function handleApiRequest(req, res) {
           }
         })();
       });
-    } else if (
+    }
+
+    else if (
       method === 'DELETE' &&
       pathParts[0] === 'api' &&
       pathParts[1] === 'admin' &&
